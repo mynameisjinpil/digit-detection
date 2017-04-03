@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 
 def handle_image():
-    File_List = glob.glob('./images/2/*.png')
+    File_List = glob.glob('./images/3/*.png')
 
     fw = open("./output/output3.txt", "w")
 
@@ -24,6 +24,8 @@ def handle_image():
         # 'px' set for zero
         px = [0] * Img.shape[0]
 
+        print Img.shape
+
         # pixel count
         for y in range(0, Img.shape[1]):
             for x in range(0, Img.shape[0]):
@@ -38,15 +40,23 @@ def handle_image():
              for j in range(0, len(px)):
                  Histo[px[i]][i] = [255]
 
+        print len(px)
         for i in range(len(px)):
             if px[i] != 0:
                 fw.write(str(px[i]))
-                fw.write(",")
+                fw.write(',')
                 count+=1
+
+        for i in range(0, 114 - count):
+            fw.write("0")
+            fw.write(",")
+            count+=1
+
 
         fw.write(str(n))
         fw.write(",")
-        cv2.imshow(ImgPath + 'histo', Histo)
+
+        #cv2.imshow(ImgPath + 'histo', Histo)
 
         print count
 
