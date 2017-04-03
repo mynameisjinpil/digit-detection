@@ -7,12 +7,16 @@ from matplotlib import pyplot as plt
 
 
 def handle_image():
-    File_List = glob.glob('./images/*.png')
+    File_List = glob.glob('./images/2/*.png')
+
+    fw = open("./output/output3.txt", "w")
 
     for n in range(0, 10):
         # load image file
         ImgPath = (File_List[n])
         Img = cv2.imread(ImgPath, cv2.IMREAD_GRAYSCALE)
+
+        count = 0
 
         #cv2.imshow(ImgPath, Img)
         print ("success: " + os.path.basename(File_List[n])) # file load check
@@ -34,11 +38,17 @@ def handle_image():
              for j in range(0, len(px)):
                  Histo[px[i]][i] = [255]
 
-        #cv2.imshow(ImgPath + 'histo', Histo)
+        for i in range(len(px)):
+            if px[i] != 0:
+                fw.write(str(px[i]))
+                fw.write(",")
+                count+=1
 
-        fig = plt.figure()
-        plt.plot(px)
-        plt.show()
+        fw.write(str(n))
+        fw.write(",")
+        cv2.imshow(ImgPath + 'histo', Histo)
+
+        print count
 
 if __name__ == '__main__':
     handle_image()
