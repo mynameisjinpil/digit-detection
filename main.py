@@ -7,9 +7,9 @@ from matplotlib import pyplot as plt
 
 
 def handle_image():
-    File_List = glob.glob('./images/3/*.png')
+    File_List = glob.glob('./images/1/*.png')
 
-    fw = open("./output/output3.txt", "w")
+    fw = open("./output/output1.txt", "w")
 
     for n in range(0, 10):
         # load image file
@@ -17,7 +17,9 @@ def handle_image():
         Img = cv2.imread(ImgPath, cv2.IMREAD_GRAYSCALE)
 
         count = 0
-
+        fw.write(ImgPath)
+        fw.write(' : ')
+        fw.write('\n')
         #cv2.imshow(ImgPath, Img)
         print ("success: " + os.path.basename(File_List[n])) # file load check
 
@@ -26,12 +28,12 @@ def handle_image():
 
         print Img.shape
 
-        # pixel count
+      # pixel count
         for y in range(0, Img.shape[1]):
             for x in range(0, Img.shape[0]):
                 if Img[x, y] == 0:
                     px[x] += 1
-        print (px)
+        #print (px)
 
         # draw Histo
         Histo = np.zeros((Img.shape[0], Img.shape[1], 1), np.uint8)
@@ -40,23 +42,29 @@ def handle_image():
              for j in range(0, len(px)):
                  Histo[px[i]][i] = [255]
 
-        print len(px)
+        #print len(px)
+        fw.write('[')
+
         for i in range(len(px)):
             if px[i] != 0:
+
                 fw.write(str(px[i]))
                 fw.write(',')
+                fw.write(' ')
                 count+=1
 
-        for i in range(0, 114 - count):
-            fw.write("0")
-            fw.write(",")
-            count+=1
+        for i in range(0, 119 - count):
+            fw.write('0')
+            fw.write(',')
+            fw.write(' ')
 
+        fw.write(']')
 
         fw.write(str(n))
-        fw.write(",")
+        fw.write('\n')
 
-        #cv2.imshow(ImgPath + 'histo', Histo)
+
+        cv2.imshow(ImgPath + 'histo', Histo)
 
         print count
 
